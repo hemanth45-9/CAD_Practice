@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CAD Dumps Quiz</title>
+  <meta name="copyright" content="© 2026 A Hemanth. All rights reserved." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#111827" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="CAD Quiz" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <section id="home" class="panel home-panel">
+      <h1>CAD Dumps Quiz</h1>
+      <div class="menu">
+        <button data-mode="random" data-count="10">Random 10Q</button>
+        <button data-mode="random" data-count="25">Random 25Q</button>
+        <button data-mode="random" data-count="60">Random 60Q</button>
+        <button data-mode="random" data-count="100">Random 100Q</button>
+        <button data-mode="random" data-count="all">Random All Questions</button>
+        <button data-mode="sequence" data-count="all">Sequence</button>
+        <button data-mode="study">Study MCQs</button>
+      </div>
+      <label class="check"><input id="jumble" type="checkbox" checked /> Jumble options</label>
+      <p class="hint">CAD questions are ready. Select any mode to start practice.</p>
+    </section>
+
+    <section id="quiz" class="panel quiz-panel hidden">
+      <div class="topbar">
+        <button id="backBtn" class="ghost">← Menu</button>
+        <div class="progress-wrap">
+          <div class="progress-text"><span id="modeLabel">Quiz</span> · <span id="qCounter">1/10</span></div>
+          <div class="progress"><div id="progressFill"></div></div>
+        </div>
+        <div class="score">Score: <span id="score">0</span>/<span id="answered">0</span></div>
+      </div>
+
+      <article class="card">
+        <h2 id="questionText"></h2>
+        <div id="options" class="options"></div>
+        <div id="feedback" class="feedback hidden"></div>
+        <details id="explanationBox" class="explanation hidden">
+          <summary>Explanation</summary>
+          <p id="explanationText"></p>
+        </details>
+      </article>
+
+      <div class="actions">
+        <button id="prevBtn" class="secondary">Previous</button>
+        <button id="submitBtn" class="hidden">Submit</button>
+        <button id="nextBtn">Next</button>
+      </div>
+    </section>
+
+    <section id="result" class="panel result-panel hidden">
+      <h1>Quiz Complete</h1>
+      <div class="big-score"><span id="finalScore">0</span>%</div>
+      <p id="finalText"></p>
+      <div class="actions center">
+        <button id="reviewBtn" class="secondary">Review</button>
+        <button id="restartBtn">Back to Menu</button>
+      </div>
+    </section>
+
+    <footer class="copyright-footer">
+      <p>© 2026 A Hemanth. All rights reserved.</p>
+      <p class="copy-warning">Unauthorized copying, redistribution, or reproduction of this quiz website is prohibited.</p>
+    </footer>
+  </main>
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    // Basic copy-protection deterrents. These do not replace legal copyright protection.
+    document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+    document.addEventListener('selectstart', function(e){ e.preventDefault(); });
+    document.addEventListener('dragstart', function(e){ e.preventDefault(); });
+    document.addEventListener('copy', function(e){ e.preventDefault(); });
+    document.addEventListener('cut', function(e){ e.preventDefault(); });
+    document.addEventListener('keydown', function(e){
+      const key = (e.key || '').toLowerCase();
+      if ((e.ctrlKey || e.metaKey) && ['c','x','s','u','p','a'].includes(key)) e.preventDefault();
+      if (e.key === 'F12') e.preventDefault();
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && ['i','j','c'].includes(key)) e.preventDefault();
+    });
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js'));
+    }
+  </script>
+</body>
+</html>
