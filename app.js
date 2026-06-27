@@ -76,7 +76,7 @@ function renderStudy(){
       const isCorrect = answerSet(q).has(opt.id);
       return `<div class="study-option ${isCorrect?'correct':''}"><span class="letter">${opt.id}.</span><span>${escapeHtml(opt.text)}</span>${isCorrect?'<span class="badge">Correct</span>':''}</div>`;
     }).join('');
-    card.innerHTML = `<div class="q-meta">Question ${qi+1} / ${state.pool.length}</div><h3>${escapeHtml(q.question)}</h3><div class="study-options">${opts}</div><div class="feedback good">Correct answer: ${correctText(q)}</div><details class="explanation"><summary>Explanation</summary><p>${escapeHtml(q.explanation||'')}</p></details>`;
+    card.innerHTML = `<div class="q-meta">Question ${qi+1} / ${state.pool.length}</div><h3>${escapeHtml(q.question)}</h3><div class="study-options">${opts}</div><div class="feedback good">Correct answer: ${correctText(q)}</div>`;
     $('options').appendChild(card);
   });
 }
@@ -99,6 +99,10 @@ function submit(){
     state.answered++;
     if(ok) state.score++;
   }
+  render();
+  state.autoMoving = true;
+  clearTimeout(state.timer);
+  state.timer = setTimeout(advanceNow, 1000);
   render();
   return true;
 }
@@ -135,7 +139,6 @@ function next(){
   if(!q) return finish();
   if(!state.submitted[q.id]){
     if(!submit()) return;
-    advanceNow();
   } else {
     advanceNow();
   }
