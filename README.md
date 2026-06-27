@@ -28,4 +28,5 @@ CAD Dumps Quiz is an interactive web-based quiz application for practicing CAD-r
 
 ---
 
-© 2026 A Hemanth. All rights reserved.
+© 2026 A Hemanth. All rights reserved. Unauthorized copying, redistribution, or reproduction is prohibited.
+Note: Browser protections are deterrents only and cannot fully stop copying by a determined person.
