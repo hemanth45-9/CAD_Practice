@@ -47,7 +47,8 @@ function render(){
       if(ans.has(opt.id)) label.classList.add('correct');
       else if(selected.has(opt.id)) label.classList.add('wrong');
     }
-    label.innerHTML = `<input type="${multi?'checkbox':'radio'}" name="opt" value="${opt.id}" ${selected.has(opt.id)?'checked':''} ${submitted?'disabled':''}> <span class="letter">${opt.id}.</span><span>${escapeHtml(opt.text)}</span>`;
+    const inputName = `opt-${q.id}`;
+    label.innerHTML = `<input type="${multi?'checkbox':'radio'}" name="${inputName}" value="${opt.id}" ${selected.has(opt.id)?'checked':''} ${submitted?'disabled':''}> <span class="letter">${opt.id}.</span> <span>${escapeHtml(opt.text)}</span>`;
     label.querySelector('input').addEventListener('change', e => choose(opt.id, multi, e.target.checked));
     $('options').appendChild(label);
   });
@@ -76,7 +77,7 @@ function renderStudy(){
       const isCorrect = answerSet(q).has(opt.id);
       return `<div class="study-option ${isCorrect?'correct':''}"><span class="letter">${opt.id}.</span><span>${escapeHtml(opt.text)}</span>${isCorrect?'<span class="badge">Correct</span>':''}</div>`;
     }).join('');
-    card.innerHTML = `<div class="q-meta">Question ${qi+1} / ${state.pool.length}</div><h3>${escapeHtml(q.question)}</h3><div class="study-options">${opts}</div><div class="feedback good">Correct answer: ${correctText(q)}</div>`;
+    card.innerHTML = `<div class="q-meta">Question ${qi+1} / ${state.pool.length}</div><h3>${escapeHtml(q.question)}</h3><div class="study-options">${opts}</div><div class="feedback good">Correct: ${correctText(q)}</div><details><summary>Explanation</summary><p>${escapeHtml(q.explanation || 'No explanation provided')}</p></details>`;
     $('options').appendChild(card);
   });
 }
