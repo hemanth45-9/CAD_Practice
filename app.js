@@ -76,7 +76,7 @@ function renderStudy(){
       const isCorrect = answerSet(q).has(opt.id);
       return `<div class="study-option ${isCorrect?'correct':''}"><span class="letter">${opt.id}.</span><span>${escapeHtml(opt.text)}</span>${isCorrect?'<span class="badge">Correct</span>':''}</div>`;
     }).join('');
-    card.innerHTML = `<div class="q-meta">Question ${qi+1} / ${state.pool.length}</div><h3>${escapeHtml(q.question)}</h3><div class="study-options">${opts}</div><div class="feedback good">Correct answer: ${escapeHtml(correctText(q))}</div>`;
+    card.innerHTML = `<div class="q-meta">Question ${qi+1} / ${state.pool.length}</div><h3>${escapeHtml(q.question)}</h3><div class="study-options">${opts}</div><div class="feedback good">Correct answer: ${correctText(q)}</div><details class="explanation"><summary>Explanation</summary><p>${escapeHtml(q.explanation||'')}</p></details>`;
     $('options').appendChild(card);
   });
 }
@@ -117,6 +117,8 @@ function renderFeedback(){
     }).join(' | ');
     $('feedback').textContent = `Wrong. Your answer: ${chosen}. Correct answer: ${correctText(q)}`;
   }
+  $('explanationBox').classList.remove('hidden');
+  $('explanationText').textContent = q.explanation || '';
 }
 function advanceNow(){
   state.autoMoving = false;
@@ -133,9 +135,7 @@ function next(){
   if(!q) return finish();
   if(!state.submitted[q.id]){
     if(!submit()) return;
-    state.autoMoving = true;
-    render();
-    state.timer = setTimeout(advanceNow, 3000);
+    advanceNow();
   } else {
     advanceNow();
   }
@@ -151,5 +151,5 @@ function escapeHtml(s){ return String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;'
 
 document.querySelectorAll('[data-mode]').forEach(btn=>btn.addEventListener('click',()=>start(btn.dataset.mode, btn.dataset.count)));
 $('submitBtn').addEventListener('click', submit); $('nextBtn').addEventListener('click', next); $('prevBtn').addEventListener('click', prev);
-$('backBtn').addEventListener('click', ()=>{ clearTimeout(state.timer); state.autoMoving=false; show('home'); }); $('restartBtn').addEventListener('click', ()=>{ clearTimeout(state.timer); state.autoMoving=false; show('home'); }); $('reviewBtn').addEventListener('click', ()=>{ clearTimeout(state.timer); state.autoMoving=false; show('quiz'); state.index=0; render();});
+$('backBtn').addEventListener('click', ()=>{ clearTimeout(state.timer); state.autoMoving=false; show('home'); }); $('restartBtn').addEventListener('click', ()=>{ clearTimeout(state.timer); state.autoMoving=false; show('home'); });
 if ($('totalCount')) $('totalCount').textContent = QUESTIONS.length;
