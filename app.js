@@ -102,7 +102,7 @@ function submit(){
   render();
   state.autoMoving = true;
   clearTimeout(state.timer);
-  state.timer = setTimeout(advanceNow, 1000);
+  state.timer = setTimeout(advanceNow, 2500);
   render();
   return true;
 }
